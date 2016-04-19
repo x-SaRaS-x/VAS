@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="generator" content="Bootply" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">Twitter Visual Analysis</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <div class="navbar-text">Layout</div>
+            <li>
+              <div class="btn-group" data-toggle="buttons" id="layouts">
+                <label class="btn btn-default navbar-btn active" id="force">
+                  <input type="radio" name="options" autocomplete="off" checked>Force
+                </label>
+                <label class="btn btn-default navbar-btn" id="radial">
+                  <input type="radio" name="options" autocomplete="off">Radial
+                </label>
+                <label class="btn btn-default navbar-btn" id="cluster">
+                  <input type="radio" name="options" autocomplete="off">Cluster
+                </label>
+              </div>
+            </li>
+            <div class="navbar-text" id="filter">Filter</div>
+            <li>
+              <div class="btn-group" data-toggle="buttons" id="filters">
+                <label class="btn btn-default  navbar-btn active" id="all">
+                  <input type="radio" name="options" autocomplete="off" checked>All
+                </label>
+                <label class="btn btn-default navbar-btn" id="popular">
+                  <input type="radio" name="options" autocomplete="off">Popular
+                </label>
+                <label class="btn btn-default navbar-btn" id="obscure">
+                  <input type="radio" name="options" autocomplete="off">Obscure
+                </label>
+              </div>
+            </li>
+          </ul>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search" name="srch-term" id="search" autocomplete="off">
+              <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+              </div>
+            </div>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings
+              <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li data-toggle="modal" data-target="#color-modal"><a>Color <span class="glyphicon glyphicon-cog pull-right"></span></a></li>
+                <li class="divider"></li>
+                <li data-toggle="modal" data-target="#size-modal"><a>Size <span class="glyphicon glyphicon-cog pull-right"></span></a></li>
+                <li class="divider"></li>
+                <li data-toggle="modal" data-target="#cluster-modal"><a>Cluster <span class="glyphicon glyphicon-cog pull-right"></span></a></li>
+                <li class="divider"></li>
+                <li data-toggle="modal" data-target="#limit-modal"><a>Limit <span class="glyphicon glyphicon-cog pull-right"></span></a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="block">
+
+      <div id="main" role="main">
+        <div id="vis"></div>
+      </div>
+
+      <footer>
+        <div id="toolbox-left">
+          <input type="file" id="hidden-file-upload">
+          <input type="image" id="upload-graph" title="upload graph" src="/files/upload-icon.png" alt="upload graph">
+          <input type="image" id="download-graph" title="download graph" src="/files/download-icon.png" alt="download graph">
+          <input type="image" id="share-graph" title="share graph" src="/files/share-icon.png" alt="share graph">
+        </div>
+        <div id="toolbox-right">
+          <input type="image" class="network active" id="graph-mode" title="graph mode" src="/files/graph-icon.png" alt="graph mode">
+          <input type="image" class="world" id="map-mode" title="map mode" src="/files/map-icon.png" alt="map mode">
+          <input type="image" class="cloud" id="cloud-mode" title="cloud mode" src="/files/cloud-icon.png" alt="cloud mode">
+        </div>
+      </footer>
+      
+    </div>
+
+    <div class="modal-groups">
+
+      <button id="hidden-settings-button"></button>
+
+      <!--Color Modal-->
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#color-modal"></button>
+      <div class="modal fade" id="color-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="color-exit">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Color Settings</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label class="control-label">Column:</label>
+                  <div class="input-group">
+                    <select class="selectpicker" id="color-column-picker">
+                      <option value="Row ID">Row ID</option>
+                      <option value="Tweet ID">Tweet ID</option>
+                      <option value="Username">Username</option>
+                      <option value="Tweet Type">Tweet Type</option>
+                      <option value="Retweeted By">Retweeted By</option>
+                      <option value="Number of Retweets">Number of Retweets</option>
+                      <option value="Hashtags">Hashtags</option>
+                      <option value="Mentions">Mentions</option>
+                      <option value="Name">Name</option>
+                      <option value="Location">Location</option>
+                      <option value="Number of Tweets">Number of Tweets</option>
+                      <option value="Number of Followers">Number of Followers</option>
+                      <option value="Number Following">Number Following</option>
+                      <option value="Location Coordinates">Location Coordinates</option>
+                      <option value="Cluster">Cluster</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="color-cancel">Cancel</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="color-save">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Size Modal-->
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#size-modal"></button>
+      <div class="modal fade" id="size-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="size-exit">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Size Settings</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label class="control-label">Column:</label>
+                  <div class="input-group">
+                    <select class="selectpicker" id="size-column-picker">
+                      <option value="Row ID">Row ID</option>
+                      <option value="Tweet ID">Tweet ID</option>
+                      <option value="Number of Retweets">Number of Retweets</option>
+                      <option value="Number of Tweets">Number of Tweets</option>
+                      <option value="Number of Followers">Number of Followers</option>
+                      <option value="Number Following">Number Following</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="size-cancel">Cancel</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="size-save">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Cluster Modal-->
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#cluster-modal"></button>
+      <div class="modal fade" id="cluster-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="cluster-exit">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Cluster Settings</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label class="control-label">Column:</label>
+                  <div class="input-group">
+                    <select class="selectpicker" id="cluster-column-picker">
+                      <option value="Row ID">Row ID</option>
+                      <option value="Tweet ID">Tweet ID</option>
+                      <option value="Username">Username</option>
+                      <option value="Tweet Type">Tweet Type</option>
+                      <option value="Retweeted By">Retweeted By</option>
+                      <option value="Number of Retweets">Number of Retweets</option>
+                      <option value="Hashtags">Hashtags</option>
+                      <option value="Mentions">Mentions</option>
+                      <option value="Name">Name</option>
+                      <option value="Location">Location</option>
+                      <option value="Number of Tweets">Number of Tweets</option>
+                      <option value="Number of Followers">Number of Followers</option>
+                      <option value="Number Following">Number Following</option>
+                      <option value="Location Coordinates">Location Coordinates</option>
+                      <option value="Cluster">Cluster</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="cluster-cancel">Cancel</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="cluster-save">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Limit Modal-->
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#limit-modal"></button>
+      <div class="modal fade" id="limit-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="limit-exit">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Limit Settings</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label class="control-label">Limit:</label>
+                  <div class="input-group">
+                    <select class="selectpicker" id="limit-picker">
+                      <option value="100">100</option>
+                      <option value="300">300</option>
+                      <option value="500">500</option>
+                      <option value="1000">1000</option>
+                      <option value="2000">2000</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="limit-cancel">Cancel</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="limit-save">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Confirmation Modal-->
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#confirmation-modal"></button>
+      <div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="confirmation-exit">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Are you sure you want to store the data?</h4>
+            </div>
+            <div class="modal-footer" id="footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="confirmation-no">No</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="confirmation-yes">Yes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Wait Modal-->
+      <div class="modal fade" id="wait-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">Please Wait</h4>
+            </div>
+            <div class="modal-body">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="full-screen-search">
+
+      <div id="full-search">
+        <button type="button" class="close">×</button>
+        <form>
+          <input type="search" value="" id="full-search-field" autocomplete="off" placeholder="Type here..." />
+          <button type="submit" class="btn btn-primary" id="full-search-button" >Search</button>
+        </form>
+      </div>
+
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <script src="js/libs/modernizr-2.0.6.min.js"></script>
+    <script src="js/settings-script.js"></script>
+    <script defer src="js/plugins.js"></script>
+    <script src="js/libs/coffee-script.js"></script>
+    <script src="js/Tooltip.js"></script>
+    <script lang="javascript" src="js/map.js"></script>
+    <script lang="javascript" src="js/limit.js"></script>
+    <script type="text/coffeescript" src="coffee/vis.coffee"></script>
+    <script src="//d3js.org/d3.v3.js" charset="utf-8"></script>
+    <script src="//cdn.jsdelivr.net/filesaver.js/0.1/FileSaver.min.js"></script>
+    <script lang="javascript" src="js/xlsx.core.min.js"></script>
+
+  </body>
+</html>
